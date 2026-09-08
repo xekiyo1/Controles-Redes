@@ -1,8 +1,7 @@
 import json
 
 
-# 							//////// 				Funciones de Procesamiento de texto				/////////////////
-
+# - Funciones de procesamiento de texto -
 
 def receive_client_request(connection_socket, buff_size=4096) -> bytes:
     full_message = b""
@@ -100,6 +99,9 @@ def create_HTTP_message(message: dict) -> bytes:
     full_message = headers_string + body
 
     return full_message.encode("iso-8859-1")
+
+
+# funciones para censurar los sitios bloqueados del json
     
 def big_brother(answer: bytes, forbidden: dict) -> bytes:
 	
@@ -138,7 +140,12 @@ def isForbidden(link: str ,forbidden: dict) -> bool:
 
 def forbid() -> bytes:
 
-    html_forbid = """<!DOCTYPE html>
+    html_forbid = """HTTP/1.1 403 Forbidden
+Content-Type: text/html; charset=utf-8
+Content-Length: 227
+Connection: close
+
+<!DOCTYPE html>
 <html>
 <head><title>403 Forbidden</title></head>
 <body>
@@ -161,6 +168,8 @@ def forbid() -> bytes:
 
     return response
 
+
+# funcion gatuna
 
 def cat_guard(file_path: str) -> bytes:
     with open(file_path, "rb") as f:
